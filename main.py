@@ -15,3 +15,4 @@ def factorial(n):
 if __name__ == "__main__":
     number = 5
     print(f"{number}! = {factorial(number)}")
+    print(f"{number + 3}! = {factorial(number + 3)}")
