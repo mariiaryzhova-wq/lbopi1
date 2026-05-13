@@ -1,1 +1,133 @@
-<h1>My </h1>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnswerBetter — AI Communication Assistant</title>
+    <style>
+        :root {
+            --primary: #4a90e2;
+            --secondary: #f3f4f6;
+            --accent: #27ae60;
+            --text: #2c3e50;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--text); line-height: 1.6; margin: 0; padding: 20px; }
+        .app-container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid var(--secondary); padding-bottom: 20px; }
+        h1 { margin: 0; color: var(--primary); font-size: 2.5rem; }
+        .authors { font-size: 0.9rem; color: #7f8c8d; margin-top: 10px; }
+        
+        .workspace { display: grid; gap: 20px; }
+        label { font-weight: 600; display: block; margin-bottom: 8px; }
+        textarea { width: 100%; height: 120px; padding: 15px; border: 2px solid var(--secondary); border-radius: 8px; font-size: 1rem; resize: none; box-sizing: border-box; }
+        
+        .controls { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        select { padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
+        button { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #357abd; transform: translateY(-1px); }
+
+        .output-section { margin-top: 30px; display: none; border-top: 2px dashed var(--secondary); padding-top: 20px; }
+        .result-box { background: var(--secondary); padding: 20px; border-radius: 8px; border-left: 5px solid var(--primary); margin-bottom: 15px; position: relative; }
+        .explanation-box { background: #e8f4fd; padding: 15px; border-radius: 8px; border: 1px solid #d1e9ff; font-size: 0.95rem; }
+        .explanation-title { font-weight: bold; color: var(--primary); margin-bottom: 5px; display: flex; align-items: center; }
+        
+        .copy-btn { position: absolute; top: 10px; right: 10px; font-size: 0.8rem; background: #ddd; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>AnswerBetter</h1>
+        <p>Трансформуйте складні повідомлення у конструктивні відповіді</p>
+        <div class="authors">Розробники: Куцевич А.М., Рижова М.В. | Група: ПЗПІ-25-1</div>
+    </header>
+
+    <div class="workspace">
+        <div class="input-group">
+            <label for="rawText">Вставте ваше повідомлення (чернетку або емоційний текст):</label>
+            <textarea id="rawText" placeholder="Наприклад: Чому ви знову затримали дедлайн?! Я розчарований!"></textarea>
+        </div>
+
+        <div class="controls">
+            <div>
+                <label for="toneSelect">Бажаний тон:</label>
+                <select id="toneSelect">
+                    <option value="pro">Професійний</option>
+                    <option value="confident">Впевнений (Кордони)</option>
+                    <option value="friendly">Дружній</option>
+                    <option value="direct">Прямий (Без води)</option>
+                </select>
+            </div>
+            <button onclick="transformText()">Трансформувати з AI</button>
+        </div>
+
+        <div id="outputSection" class="output-section">
+            <label>Результат трансформації:</label>
+            <div class="result-box">
+                <button class="copy-btn" onclick="copyResult()">Копіювати</button>
+                <div id="aiResultText"></div>
+            </div>
+
+            <div class="explanation-box">
+                <div class="explanation-title">💡 The "Why" Factor (Психологічне обґрунтування):</div>
+                <div id="aiExplanation"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Основна функція обробки тексту (FR-01, FR-03)
+     */
+    function transformText() {
+        const input = document.getElementById('rawText').value;
+        const tone = document.getElementById('toneSelect').value;
+        const outputSection = document.getElementById('outputSection');
+
+        if (!input.trim()) {
+            alert("Будь ласка, введіть текст для обробки.");
+            return;
+        }
+
+        // Симуляція AI-генерації (на основі вашої логіки SRS)
+        let result = "";
+        let explanation = "";
+
+        if (tone === "pro") {
+            result = "Я помітив затримку в термінах виконання проєкту. Чи могли б ми обговорити причини та скоригувати графік, щоб уникнути подібного в майбутньому?";
+            explanation = "Ми прибрали звинувачення та емоційні знаки оклику. Фокус зміщено з проблеми на спільне рішення, що зберігає професійні стосунки.";
+        } else {
+            // КРОК 6: AI-згенерована функція (Приклад для демонстрації в ЛР)
+            const aiResponse = getAiSuggestion(input, tone);
+            result = aiResponse.text;
+            explanation = aiResponse.why;
+        }
+
+        document.getElementById('aiResultText').innerText = result;
+        document.getElementById('aiExplanation').innerText = explanation;
+        outputSection.style.display = 'block';
+    }
+
+    /**
+     * AI-згенерована функція (згідно з Кроком 6 методички)
+     * Промпт: "Напиши функцію JS, яка імітує логіку AI-асистента для перефразування"
+     */
+    function getAiSuggestion(input, tone) {
+        // У реальному проєкті тут буде запит до OpenAI API
+        return {
+            text: "Дякую за ваш запит. Наразі я маю велике навантаження, тому зможу повернутися до цього питання у вівторок. Сподіваюсь на розуміння.",
+            why: "Функція замінила виправдовування на чітке окреслення часових меж (кордонів), що підвищує вашу авторитетність в очах співрозмовника."
+        };
+    }
+
+    function copyResult() {
+        const text = document.getElementById('aiResultText').innerText;
+        navigator.clipboard.writeText(text);
+        alert("Текст скопійовано!");
+    }
+</script>
+
+</body>
+</html>
